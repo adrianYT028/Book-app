@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Book</title>
+    <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Book</h1>
+        <form action="/edit-book/<%= book.id %>" method="POST">
+            <input type="text" name="title" value="<%= book.title %>" required>
+            <input type="text" name="author" value="<%= book.author %>" required>
+            <input type="url" name="cover_url" value="<%= book.cover_url %>">
+            <input type="number" name="rating" value="<%= book.rating %>" min="1" max="5" required>
+            <textarea name="notes"><%= book.notes %></textarea>
+            <input type="date" name="read_date" value="<%= book.read_date %>" required>
+            <button type="submit">Update Book</button>
+        </form>
+        <a href="/"><button>Back</button></a>
+    </div>
+</body>
+</html>

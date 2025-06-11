@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Notes</title>
+    <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>📚 My Book Notes</h1>
+        
+        <form action="/search" method="GET">
+            <input type="text" name="query" placeholder="Search books..." required>
+            <button type="submit">🔍 Search</button>
+        </form>
+
+        <a href="/add-book"><button>Add New Book</button></a>
+        <ol>
+    <% books.forEach(book => { %>
+        <li id="book-<%= book.id %>" class="book-item">
+            <img src="<%= book.cover_url %>" alt="Book Cover">
+            <div class="book-info">
+                <h3><%= book.title %></h3>
+                <p><em>by <%= book.author %></em></p>
+                <p>⭐ Rating: <%= book.rating %></p>
+                <p><%= book.notes %></p>
+                <p>📅 Read on: <%= new Date(book.read_date).toDateString() %></p>
+                <div class="book-actions">
+                    <a href="/edit-book/<%= book.id %>"><button class="edit-btn">Edit</button></a>
+                    <button class="delete-btn" data-id="<%= book.id %>">Delete</button>
+                </div>
+            </div>
+        </li>
+    <% }) %>
+</ol>
+
+       
+    </div>
+    <script src="/script.js"></script>
+
+
+
+    
+
+</body>
+</html> 
+
+
+
+
