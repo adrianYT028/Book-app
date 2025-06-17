@@ -47,7 +47,7 @@ CREATE TABLE books (
     notes TEXT,
     read_date DATE
 );
-//DATA BASE SETUP
+## DATA BASE SETUP
 DB_USER=your_db_user
 DB_HOST=localhost
 DB_NAME=your_db_name
@@ -55,7 +55,7 @@ DB_PASS=your_db_password
 DB_PORT=5432
 PORT=3000
 
-//RUN THE APP
+##RUN THE APP
 node server.js
 VISIT :
 http://localhost:3000
