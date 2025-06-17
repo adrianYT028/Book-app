@@ -38,6 +38,10 @@ A minimalist web application to **track books you've read**, take notes, give ra
    git clone https://github.com/yourusername/book-notes-app.git
    cd book-notes-app
 npm install
+
+
+## DATABASE SETUP
+
 CREATE TABLE books (
     id SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
@@ -47,7 +51,7 @@ CREATE TABLE books (
     notes TEXT,
     read_date DATE
 );
-## DATA BASE SETUP
+
 DB_USER=your_db_user
 DB_HOST=localhost
 DB_NAME=your_db_name
