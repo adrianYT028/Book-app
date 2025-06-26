@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Notes - My Reading Journey</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="app-container">
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="nav-brand">📚 Book Notes</a>
+            <div class="nav-user">
+                <span class="nav-username">Welcome, <%= username %>!</span>
+                <a href="/logout" class="btn-logout">Sign Out</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">My Reading Journey</h1>
+            <p class="page-subtitle">Track your books, notes, and reading progress</p>
+        </header>
+
+        <section class="search-section">
+            <form action="/search" method="GET" class="search-form">
+                <input 
+                    type="text" 
+                    name="query" 
+                    placeholder="Search by title or author..." 
+                    class="search-input"
+                    value="<%= typeof query !== 'undefined' ? query : '' %>"
+                >
+                <button type="submit" class="btn-search">Search</button>
+            </form>
+            <a href="/add-book" class="btn-add">
+                <span>➕</span>
+                Add New Book
+            </a>
+        </section>
+
+        <% if (books.length === 0) { %>
+            <div class="empty-state">
+                <h3>No books found</h3>
+                <p>Start building your reading collection by adding your first book!</p>
+                <a href="/add-book" class="btn-add">
+                    <span>📖</span>
+                    Add Your First Book
+                </a>
+            </div>
+        <% } else { %>
+            <div class="books-grid">
+                <% books.forEach(book => { %>
+                    <article class="book-card" id="book-<%= book.id %>">
+                        <div class="book-header">
+                            <img 
+                                src="<%= book.cover_url || '/images/default-book.png' %>" 
+                                alt="<%= book.title %> cover"
+                                class="book-cover"
+                                onerror="this.src='/images/default-book.png'"
+                            >
+                            <div class="book-info">
+                                <h3 class="book-title"><%= book.title %></h3>
+                                <p class="book-author">by <%= book.author %></p>
+                                <div class="book-rating">
+                                    <% for (let i = 1; i <= 5; i++) { %>
+                                        <span class="star <%= i <= book.rating ? '' : 'empty' %>">★</span>
+                                    <% } %>
+                                </div>
+                                <% if (book.read_date) { %>
+                                    <p class="book-date">Read: <%= new Date(book.read_date).toLocaleDateString() %></p>
+                                <% } %>
+                            </div>
+                        </div>
+                        
+                        <% if (book.notes) { %>
+                            <div class="book-notes">
+                                "<%= book.notes %>"
+                            </div>
+                        <% } %>
+                        
+                        <div class="book-actions">
+                            <a href="/edit-book/<%= book.id %>" class="btn-edit">Edit</a>
+                            <button 
+                                class="btn-delete delete-btn" 
+                                data-id="<%= book.id %>"
+                                title="Delete this book"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </article>
+                <% }); %>
+            </div>
+        <% } %>
+    </main>
+
+    <script src="/script.js"></script>
+</body>
+</html>
