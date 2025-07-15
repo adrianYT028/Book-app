@@ -12,13 +12,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // ✅ PostgreSQL Connection
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASS,
-    port: process.env.DB_PORT,
-});
+const pool = require('./db'); // ✅ From your new db.js file
+
 
 // ✅ Middleware
 app.use(express.json()); // Parses JSON request bodies
