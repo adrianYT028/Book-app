@@ -1,0 +1,27 @@
+{
+  "name": "book-notes-app-backend",
+  "version": "1.0.0",
+  "description": "Backend for the Book Notes application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "echo 'No build step required'",
+    "postinstall": "node check-db.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-pg-simple": "^6.1.0",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.10",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "keywords": []
+}

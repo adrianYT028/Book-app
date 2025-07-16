@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warp to Mario's Library</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>🍄 Mario's Library</h1>
+            <h2>Welcome Back, Hero! 🎮</h2>
+            <% if (typeof error !== 'undefined') { %>
+                <div class="error-message"><%= error %></div>
+            <% } %>
+            <form action="/login" method="POST" class="auth-form">
+                <input type="email" name="email" placeholder="📧 Your Email (Warp Address)" required>
+                <input type="password" name="password" placeholder="🔑 Secret Power Code" required>
+                <button type="submit" class="btn-primary">🚀 Warp In!</button>
+            </form>
+            <p class="auth-switch">
+                New to the Mushroom Kingdom? <a href="/register">🍄 Start Adventure</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

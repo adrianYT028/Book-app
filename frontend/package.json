@@ -1,0 +1,14 @@
+{
+  "name": "book-notes-app-frontend",
+  "version": "1.0.0",
+  "description": "Frontend assets for the Book Notes application - EJS templates, CSS styles, and client-side JavaScript",
+  "main": "public/script.js",
+  "scripts": {
+    "test": "echo \"No tests specified for frontend assets\" && exit 0"
+  },
+  "keywords": ["book-notes", "frontend", "ejs", "templates"],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
