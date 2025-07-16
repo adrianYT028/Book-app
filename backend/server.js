@@ -18,6 +18,108 @@ const port = process.env.PORT || 3000;
 // ✅ PostgreSQL Connection
 const pool = require('./db'); // ✅ From your new db.js file
 
+// Database initialization function
+async function initializeDatabase() {
+    try {
+        console.log('🔄 Checking database tables...');
+        
+        // Check if users table exists
+        const usersCheck = await pool.query(`
+            SELECT EXISTS (
+                SELECT FROM information_schema.tables 
+                WHERE table_schema = 'public' 
+                AND table_name = 'users'
+            );
+        `);
+        
+        // Check if books table exists
+        const booksCheck = await pool.query(`
+            SELECT EXISTS (
+                SELECT FROM information_schema.tables 
+                WHERE table_schema = 'public' 
+                AND table_name = 'books'
+            );
+        `);
+        
+        // Check if user_sessions table exists
+        const sessionsCheck = await pool.query(`
+            SELECT EXISTS (
+                SELECT FROM information_schema.tables 
+                WHERE table_schema = 'public' 
+                AND table_name = 'user_sessions'
+            );
+        `);
+        
+        if (!usersCheck.rows[0].exists || !booksCheck.rows[0].exists || !sessionsCheck.rows[0].exists) {
+            console.log('🚨 Creating missing database tables...');
+            await createTables();
+        } else {
+            console.log('✅ All database tables exist!');
+        }
+        
+    } catch (err) {
+        console.error('❌ Database initialization failed:', err.message);
+        // Don't exit - let the app continue and show the error in logs
+    }
+}
+
+async function createTables() {
+    try {
+        // Create users table
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,
+                username VARCHAR(255) UNIQUE NOT NULL,
+                email VARCHAR(255) UNIQUE NOT NULL,
+                password VARCHAR(255) NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `);
+        
+        // Create books table
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS books (
+                id SERIAL PRIMARY KEY,
+                title VARCHAR(255) NOT NULL,
+                author VARCHAR(255) NOT NULL,
+                cover_url TEXT,
+                rating INTEGER CHECK (rating >= 1 AND rating <= 5),
+                notes TEXT,
+                read_date DATE,
+                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `);
+        
+        // Create session table
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS user_sessions (
+                sid VARCHAR NOT NULL COLLATE "default",
+                sess JSON NOT NULL,
+                expire TIMESTAMP(6) NOT NULL
+            ) WITH (OIDS=FALSE);
+        `);
+        
+        // Add primary key constraint if it doesn't exist
+        try {
+            await pool.query(`
+                ALTER TABLE user_sessions ADD CONSTRAINT session_pkey PRIMARY KEY (sid) NOT DEFERRABLE INITIALLY IMMEDIATE;
+            `);
+        } catch (err) {
+            // Ignore error if constraint already exists
+            if (!err.message.includes('already exists')) {
+                throw err;
+            }
+        }
+        
+        console.log('✅ Database tables created successfully!');
+        
+    } catch (err) {
+        console.error('❌ Table creation failed:', err.message);
+        throw err;
+    }
+}
+
 // ✅ Middleware
 app.use(express.json()); // Parses JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parses form data
@@ -231,7 +333,21 @@ app.delete("/books/:id", requireAuth, async (req, res) => {
 
 
 
-// ✅ Start Server
-app.listen(port, () => {
-    console.log(`🚀 Server running on http://localhost:${port}`);
-});
+// ✅ Start Server with Database Initialization
+async function startServer() {
+    try {
+        // Initialize database first
+        await initializeDatabase();
+        
+        // Start the server
+        app.listen(port, () => {
+            console.log(`🚀 Server running on http://localhost:${port}`);
+            console.log(`🌐 App URL: https://book-app-qbqy.onrender.com`);
+        });
+    } catch (err) {
+        console.error('❌ Failed to start server:', err.message);
+        process.exit(1);
+    }
+}
+
+startServer();

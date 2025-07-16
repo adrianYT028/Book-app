@@ -153,7 +153,7 @@ npm install
 2. **Configure database**: Update `.env` with your PostgreSQL credentials
 3. **Create database**: Create the PostgreSQL database and tables
 4. **Start development server**: `npm run dev`
-5. **Test application**: Visit `http://localhost:3000`
+5. **Test application**: Visit `https://book-app-qbqy.onrender.com`
 
 ## Production Deployment
 1. Set production environment variables
@@ -285,7 +285,7 @@ NODE_ENV=development
 npm start
 ```
 
-Visit: **http://localhost:3000**
+Visit: **https://book-app-qbqy.onrender.com**
 
 ---
 

@@ -75,7 +75,7 @@ The frontend uses EJS templates served by the backend and provides the user inte
    ```
 
 5. **Access the application:**
-   Open your browser and go to `http://localhost:3000`
+   Open your browser and go to `https://book-app-qbqy.onrender.com`
 
 ## Environment Variables
 Create a `.env` file in the `backend` directory with the following variables:

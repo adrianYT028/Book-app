@@ -70,7 +70,7 @@ The frontend uses:
    ```
 
 4. **Access the Application**
-   Open your web browser and go to `http://localhost:3000` to access the application.
+   Open your web browser and go to `https://book-app-qbqy.onrender.com` to access the application.
 
 ## Usage
 - **Register**: Create a new account to start managing your book notes.

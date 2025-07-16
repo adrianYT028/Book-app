@@ -1,13 +1,25 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: String(process.env.DB_PASS),  // Ensure it's a string
-    port: process.env.DB_PORT,
-});
+// Support both DATABASE_URL and individual credentials
+let pool;
+
+if (process.env.DATABASE_URL) {
+    // Use DATABASE_URL (common on hosting platforms like Render, Heroku)
+    pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+    });
+} else {
+    // Use individual database credentials
+    pool = new Pool({
+        user: process.env.DB_USER,
+        host: process.env.DB_HOST,
+        database: process.env.DB_NAME,
+        password: String(process.env.DB_PASS),  // Ensure it's a string
+        port: process.env.DB_PORT,
+    });
+}
 
 // Test the connection
 pool.connect((err, client, release) => {

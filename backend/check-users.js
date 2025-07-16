@@ -6,7 +6,7 @@ async function checkUsers() {
         console.log('📋 Existing users in database:');
         if (result.rows.length === 0) {
             console.log('❌ No users found! You need to register a user first.');
-            console.log('💡 Go to http://localhost:3000/register to create an account');
+            console.log('💡 Go to https://book-app-qbqy.onrender.com/register to create an account');
         } else {
             console.log('✅ Found', result.rows.length, 'users:');
             result.rows.forEach(user => {
